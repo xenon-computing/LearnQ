@@ -1,0 +1,44 @@
+# Creating github action for cloud app compilation
+# name of the workflow
+name: LearnQ_Compiler
+
+# When to trigger workflow
+on:
+  # When push data into repository
+  push:
+    # For which branches to workflow
+    branches: ["LearnQ", "master"]
+  # When sending a pull request to existing repository
+  pull_request:
+    branches: ["LearnQ", "master"]
+
+# Jobs to handle in the workflow
+jobs:
+  build:
+    name: Native_Kotlin_APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout_Kotlin_Source_Code
+        uses: actions/checkout@v4
+
+      - name: Setting_up_JAVA
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant_execution_permission_for_gradle_wrapper
+        run: chmod +x gradlew
+
+      - name: Run_and_Build_compile_APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload_debug_apk_to_cloud
+        uses: actions/upload-artifact@v4
+        with:
+          name: LearnQ-Debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 1
+
