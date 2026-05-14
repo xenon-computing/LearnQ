@@ -5,5 +5,22 @@
  * For more detailed information on multi-project builds, please refer to https://docs.gradle.org/9.5.1/userguide/multi_project_builds.html in the Gradle documentation.
  */
 
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "LearnQ"
 include(":app")
+
